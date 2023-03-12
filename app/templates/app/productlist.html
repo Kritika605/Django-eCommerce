@@ -1,0 +1,23 @@
+{% extends 'app/base.html'%}
+{% load custom_filter%}
+{% block title%} Products {% endblock title%}
+{% block main %}
+<div class="container ">
+  <div class="row">
+    {% for product in products%}
+      <div class="card m-2 p-2" style="width: 18rem;">
+        <div class="card-body">
+          <a class="text-decoration-none" href="{% url 'product_detail' product.id %}">
+            <img src="{{product.image.url}}" class="card-img-top" alt="..." style="height: 180px; ;width: 180px;">
+            <h6 class="card-title text-dark mt-2">{{product.title}}</h6>
+            <p class="card-text text-muted small">{{product.description}}</p>
+            <p class="text-dark small fw-bold"> {{product.discounted_price|currency}} <span class="text-muted"> <s>{{product.selling_price}}</s></span></p>
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <h2 class="text-center mt-4">No result found</h2>
+    {% endfor %}
+  </div>
+</div>
+{% endblock main%}

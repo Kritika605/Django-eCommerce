@@ -1,0 +1,36 @@
+{% extends 'app/base.html'%}
+{% block title%} Address {% endblock title%}
+{% block main %}
+
+<div class="container my-5">
+  <div class="row">
+    <h3>Welcome Sonam</h3>
+    <div class="col-sm-2 border-end">
+    <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-success mt-2">Profile</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-success mt-2">Address</a></li>
+    </ul>
+    </div>
+    
+    
+    <div class="col-sm-8 p-3">
+      <div class="row">
+        {% for add in address %}
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Address {{forloop.counter}}</h3>
+              <p class="card-text">Name: {{add.name}}</p>
+              <p class="card-text">Address : {{add.locality}},{{add.city}},{{add.state}}-{{add.zipcode}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
+
+{% endblock main%}

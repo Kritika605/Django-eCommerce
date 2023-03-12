@@ -1,0 +1,60 @@
+{% extends 'app/base.html'%}
+{% block title%} Place Order {% endblock title%}
+{% block main %}
+{% load custom_filter %}
+<div class="container mt-5">
+    
+        <div class="row d-flex justify-content-around">
+            <div class="col-sm-6 shadow">
+                <h4> Order Summary</h4>
+                {% for prod in cart_prod %}
+                    <div class="card m-2 p-1" style="width: 30rem;">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="{{prod.product.image.url}}" class="card-img-top" alt="..." style="width: 80px; height: 80px;">
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="card-body">
+                                    <h6 class="card-title">Product: {{prod.product.title}}</h6>
+                                    <p class="card-text mb-1"><small>Quantity: {{prod.quantity}}</small></p>
+                                    <p class="card-text"><small>Price: {{prod.product.discounted_price|currency}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="card m-2 p-1" style="width: 30rem;">
+                    <p class="card-header fw-bold"><small>PRICE DETAILS</small></p>
+                    <div class="card-body">
+                      <small class="card-text d-flex justify-content-between">Total MRP: <span>{{amount|currency}}</span></small>
+                      <small class="card-text d-flex justify-content-between">Discount on MRP: <span>{{prod_discountamount|currency}}</span></small>
+                      <small class="card-text d-flex justify-content-between">Shipping Charge: <span> {{shipping_charge|currency}}</span></small>
+                    </div>
+                    <div class="card-footer">
+                        <small class="card-text d-flex justify-content-between">Total Amount: <span> {{total_amount|currency}} </span></small>
+                    </div>
+                </div>
+            </div>
+            <!-- Address Detail -->
+            <div class="col-sm-4 shadow p-2">
+                <h4>Select Shipping address</h4>
+                <form action="/payment_done">
+                    {% for add in address %}
+                <div class="form-check mt-5" >
+                    <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value = "{{add.id}}">
+                    <label class="form-check-label" for="custadd{{forloop.counter}" >
+                        Address: {{forloop.counter}}
+                    </label>
+                </div>
+                <p class="border p-2 mb-2"><span class="fw-bold">{{add.name}} <br> </span> {{add.locality}}, {{add.city}}, {{add.state}} - {{add.zipcode}}</p>
+                {% endfor %}
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success"> Continue</button>
+                </div>
+                </form>
+    
+            </div>
+        </div>
+    
+</div>
+{% endblock main %}

@@ -1,0 +1,65 @@
+{% extends 'app/base.html'%}
+{% load custom_filter %}
+{% block title%} Buy Now {% endblock title%}
+{% block main %}
+<div class="container mx-auto col-sm-8 ">
+    <div class="row my-2 p-2">
+        <h5>Welcome <span class="text-capitalize">{{request.user}}</span></h5>
+        <div class="col-sm-2 mt-4">
+            <ul class="list-unstyled">
+                <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-success btn-sm">Orders</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 mt-3">
+            {% for order in orders %}
+                <div class="card m-2 p-1" style="width: 50rem;">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <img src="{{order.product.image.url}}" class="card-img-top" alt="..." style="width: 80px; height: 80px;">
+                        </div>
+                        
+                        <div class="card-body col-sm-8">
+                            <div class="row d-flex justify-content-around">
+                                <div class="col-sm-4">
+                                    <p class="card-text mb-1">Product: {{order.product.title}}</p>
+                                    <p class="card-text mb-1"><small>Quantity: {{order.quantity}}</small></p>
+                                    <p class="card-text"><small>Price: {{order.product.discounted_price|currency}}</small></p>
+                                </div>
+                                <div class="col-sm-4 text-end">
+                                    <p>Order Status: {{order.status}}</p>
+                                    {% if order.status == 'Pending'%}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {% endif %}
+                                    {% if order.status == 'Accepted'%}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {% endif %}
+                                    {% if order.status == 'Packed'%}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {% endif %}
+                                    {% if order.status == 'On The Way'%}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {% endif %}
+                                    {% if order.status == 'Delivered'%}
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock main%}

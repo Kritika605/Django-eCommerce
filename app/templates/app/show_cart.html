@@ -1,0 +1,73 @@
+{% extends 'app/base.html'%}
+{% block title%} Cart {% endblock title%}
+{% block main %}
+{% load custom_filter%}
+<div class="container shadow p-4 ">
+    <h3 class="text-center">Shopping Cart </h3>
+    <div class="row">
+        <div class="col-sm-8">
+            
+            <h5 class="card-title">Cart</h5>
+            {% for cart in carts %}
+            <div class="card mt-2" style="width: 45rem; height:11rem">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <img src="{{cart.product.image.url}}" class="card-img-top img-thumbnail p-2" alt="..."  style="width: 150px; height: 150px;">
+                    </div>
+                    <div class="card-body col-sm-10">
+                        <ul class="list-group">
+                            <small><b>{{cart.product.title}}</b></small>
+                            <small class="text-muted">{{cart.product.description}}</small>
+                            <div class="d-flex flex-row">
+                                <div>
+                                    <small>Quantity:</small>
+                                </div>
+                                <div class="d-flex flex-row mx-4">
+                                    <div class="p-2 bd-highlight">
+                                        <button class="minus_quantity btn btn-secondary btn-sm" name="reduce_quantity" pid="{{cart.product.id}}" >-</button>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <p id="quantity">{{cart.quantity}}</p>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <button class="plus_quantity btn btn-secondary btn-sm" name="add_quantity" pid="{{cart.product.id}}" >+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <small>{{cart.product.discounted_price|currency}}</small>
+                            </div>
+                            <div>
+                                <button class="remove_cart btn btn-success btn-sm"  id="{{cart.product.id}}">Remove</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        
+        <div class="card col-sm-4 shadow mt-4" style="height: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Cart Total</h5>
+                <ul class="list-group">
+                    <li class="list-group-item border-0 d-flex justify-content-between px-0">Amount <span id="amount">{{amount|currency}}</span></li>
+                    <li class="list-group-item border-0 d-flex justify-content-between px-0 py-0">Shipping <span id="shipping_charge">{{shipping_charge|currency}}</span></li>
+                    <hr>
+                    <li class="list-group-item border-0 d-flex justify-content-between px-0 py-0"><strong>Total</strong> <span id="cart_total"><strong>{{cart_total|currency}}</strong></span></li>
+                </ul>
+                <div class="d-grid gap-2 pt-4">
+                    <a href="{% url 'placeorder'%}" class="btn btn-success">Place Order</a>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+
+{% endblock main%}
+
